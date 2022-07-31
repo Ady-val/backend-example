@@ -16,6 +16,7 @@ app.post('/login', async (req, res) => {
   const { email, password } = req.body; //se obtiene el correo y la contra que se mandaron en la peticion de la ruta
   
   const userEmail = 'prueba@correo.com' //correo de prueba
+  const userName = 'pablo'
   const userPassword = '$2b$10$z8u/XP5DXrjCYfJAtDkHS.bN5cyna2KLKAtp4mQAAkm8SArB5nKa.' //hash de la contra Alex123#@! 
 
   if (email !== userEmail) {
@@ -36,7 +37,7 @@ app.post('/login', async (req, res) => {
       'asdfasdf'
     );
 
-    res.status(200).send({user: email, token});// se envia un success para que el cliente sepa que ya tiene acceso junto con el token que debe envar en cada momento
+    res.status(200).send({user: email, token, userName});// se envia un success para que el cliente sepa que ya tiene acceso junto con el token que debe envar en cada momento
 
   } else {
     //en caso de que la contras no coincidan se envia el error de la siguiente manera
