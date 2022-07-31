@@ -18,7 +18,7 @@ app.post('/login', async (req, res) => {
   const userEmail = 'prueba@correo.com' //correo de prueba
   const userPassword = '$2b$10$z8u/XP5DXrjCYfJAtDkHS.bN5cyna2KLKAtp4mQAAkm8SArB5nKa.' //hash de la contra Alex123#@! 
 
-  if (email == userEmail) {
+  if (email !== userEmail) {
       return res.status(409).json({ success: false, message: "Invalid credentials" }); //si el usuario no existe esta es lamanera en que se envia una respuesta de error ya no continua con el resto del codigo
   }
 
