@@ -6,7 +6,7 @@ const saltRounds = 10
 const Password = {
   
   /* Esta funcion sirve para hacer un hash de un password para que despues sea guardada en la base de datos */
-  async toHash(password) {
+  toHash: async (password) => {
     const hashedPassword = await new Promise((resolve, reject) => {
       bcrypt.hash(password, saltRounds, ((err, hash) => {
         if (err) reject(err);
@@ -17,7 +17,7 @@ const Password = {
   },
 
   /* Esta funcion sirve para comparar el hash de un password (storedPassword) y el password que manda el cliente (suppliedPassword) el cual devuelve un true si hicieron match y un false si no fue asi */
-  async compare(storedPassword, suppliedPassword) {
+  compare: async(storedPassword, suppliedPassword) => {
     return new Promise((resolve, reject) => {
       bcrypt.compare(suppliedPassword, storedPassword, (err, res) => {
         err ? reject(err) : resolve(res)
