@@ -1,6 +1,6 @@
 const express = require('express');
-const jwt = require('jsonwebtoken')
-const { Password } = require('./services');
+const jwt = require('jsonwebtoken');
+const { ComparePass } = require('./services');
 
 const app = express.Router(); //se crea el obtejo que contendra todas las rutas para que sean llamadas en la API
 
@@ -23,7 +23,7 @@ app.post('/login', async (req, res) => {
       return res.status(409).json({ success: false, message: "Invalid credentials" }); //si el usuario no existe esta es lamanera en que se envia una respuesta de error ya no continua con el resto del codigo
   }
 
-  const passwordMatch = await Password.compare(userPassword, password)
+  const passwordMatch = await ComparePass(userPassword, password)
 
   if (passwordMatch) {
     //se crea token de acceso
