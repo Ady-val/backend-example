@@ -1,6 +1,9 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const Password = require('./services')
+const bcrypt = require('bcrypt')
+
+const saltRounds = 10
 
 const app = express.Router(); //se crea el obtejo que contendra todas las rutas para que sean llamadas en la API
 
@@ -23,7 +26,7 @@ app.post('/login', async (req, res) => {
       return res.status(409).json({ success: false, message: "Invalid credentials" }); //si el usuario no existe esta es lamanera en que se envia una respuesta de error ya no continua con el resto del codigo
   }
 
-  const passwordMatch = await Password.compare(userPassword, password)
+  const passwordMatch = await Compare(userPassword, password)
 
   if (passwordMatch) {
     //se crea token de acceso
@@ -55,5 +58,13 @@ app.post('/login', async (req, res) => {
   //   password,
   // );
 })
+
+const Compare = async (storedPassword, suppliedPassword) => {
+  return new Promise((resolve, reject) => {
+    bcrypt.compare(suppliedPassword, storedPassword, (err, res) => {
+      err ? reject(err) : resolve(res)
+    })
+  })
+}
 
 module.exports = app; //se exporta el objeto que contiene todas las rutas
