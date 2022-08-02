@@ -15,6 +15,12 @@ app.get('/test', (req, res) => {
   })
 })
 
+app.get('/hash-pass/:pass', async (req, res) => {
+  const {pass} = req.params
+  const hash = await toHash(pass)
+  res.status(200).json({success: true, hash})
+})
+
 app.post('/login', async (req, res) => {
   const { email, password } = req.body; //se obtiene el correo y la contra que se mandaron en la peticion de la ruta
   
@@ -65,6 +71,16 @@ const Compare = async (storedPassword, suppliedPassword) => {
       err ? reject(err) : resolve(res)
     })
   })
+}
+
+const toHash = async (password) => {
+  const hashedPassword = await new Promise((resolve, reject) => {
+    bcrypt.hash(password, saltRounds, ((err, hash) => {
+      if (err) reject(err);
+      resolve(hash)
+    }))
+  })
+  return hashedPassword;
 }
 
 module.exports = app; //se exporta el objeto que contiene todas las rutas
